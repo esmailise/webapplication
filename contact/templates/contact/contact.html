@@ -1,0 +1,67 @@
+{% extends 'masterpage.html' %}
+{% load static %}
+
+{% block title %}ارتباط با ما{% endblock title %}	
+
+{% block content %}
+	<!-- Start All Pages -->
+	<div class="all-page-title page-breadcrumb">
+		<div class="container text-center">
+			<div class="row">
+				<div class="col-lg-12">
+					<h1>ارتباط با ما</h1>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End All Pages -->
+
+	<!-- Start Contact -->
+	<div class="contact-box">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="heading-title text-center">
+						{% if messages %}
+							{% for message in messages %}
+								<div class="alert alert-success">{{message}}</div>
+							{% endfor %}
+						{% endif %}
+						<p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</p>
+					</div>
+				</div>
+			</div>
+			<div class="row direction">
+				<div class="col-lg-12">
+					<form method="POST"> 
+						{% csrf_token %}
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group">
+									<input type="text" class="form-control" id="name" name="name" placeholder="نام شما" required data-error="لطفا نام خود را وارد کنید">
+									
+								</div>                                 
+							</div>
+							<div class="col-md-12">
+								<div class="form-group">
+									<input type="email" placeholder="ایمیل شما"  name="email" id="email" class="form-control" required data-error="لطفا ایمیل خود را وارد کنید">
+									
+								</div> 
+							</div>
+							<div class="col-md-12">
+								<div class="form-group"> 
+									<textarea class="form-control" name="message" id="message" placeholder="متن شما" rows="4" required data-error="لطفا متن خود را وارد کنید" ></textarea>
+									
+								</div>
+								<div class="submit-button text-center">
+									<button class="btn btn-submit" type="submit">ارسال پیام</button>
+								</div>
+							</div>
+						</div>            
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End Contact -->
+{% endblock content %}
