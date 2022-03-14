@@ -1,0 +1,126 @@
+{% extends 'masterpage.html' %}	
+{% load static %}
+{% block title %}رزرو{% endblock title %}
+
+{% block content %}
+
+
+	
+	<!-- Start All Pages -->
+	<div class="all-page-title page-breadcrumb">
+		<div class="container text-center">
+			<div class="row">
+				<div class="col-lg-12">
+					<h1>رزور کار</h1>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End All Pages -->
+
+
+
+	<!-- Start Reservation --> 
+	<div class="reservation-box">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="heading-title text-center">
+						<h2>رزرو</h2>
+						<p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</p>
+						
+						{% if messages %}
+							{% for message in messages %}
+								<div class="alert alert-success">{{message}}</div>
+							{% endfor %}
+						{% endif %}
+						
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12 col-sm-12 col-xs-12">
+					<div class="contact-block">
+						<form method="POST">
+						{% csrf_token %}
+							<div class="row ">
+								<div class="col-md-6 direction">
+									<h3>مشخصات کار</h3>
+									<div class="col-md-12">
+										<div class="form-group">
+											<input id="data" class="datepicker picker__input form-control" name="data" type="text" value="{{reservation_date|date:"Y-m-d"}}"  placeholder="{{reservation_date|date:"Y-m-d"}}">
+											<div class="help-block with-errors"></div>
+										</div>                                 
+									</div>
+									<div class="col-md-12">
+										<div class="form-group">
+											<input id="time" name="time"  class="time form-control picker__input"  placeholder="{{reservation_date|time:"H:i"}}" value="{{reservation_date|time:"H:i"}}">
+											<div class="help-block with-errors"></div>
+										</div>                                 
+									</div>
+									<div class="col-md-12">
+										<div class="form-group">
+											
+												<select class="custom-select d-block form-control" name="categorys" id="categotys" >
+												{% for lists in list %}
+												<option value='{{lists.id}}'>{{lists.name_work_fa}}</option>
+												{% endfor %}
+												</select>
+											
+											
+											<div class="help-block with-errors"></div>
+										</div> 
+									</div>
+								</div>
+								<div class="col-md-6 direction">
+									<h3>مشخصات فردی</h3>
+									<div class="col-md-12">
+										<div class="form-group">
+											<input type="text" placeholder="ایمیل شما" id="email" class="form-control" name="email" >
+											<div class="help-block with-errors"></div>
+										</div> 
+									</div>
+									<div class="col-md-12">
+										<div class="form-group">
+											<input type="text" placeholder="شماره تلفن شما" id="phone" class="form-control" name="phone" >
+											<div class="help-block with-errors"></div>
+										</div> 
+									</div>
+										<div class="col-md-12">
+										<div class="form-group">
+											<input type="text" placeholder="ادرس شما" id="address" class="form-control" name="address" >
+											<div class="help-block with-errors"></div>
+										</div> 
+									</div>
+								</div>
+										
+									
+										
+										
+								<div class="col-md-12">
+									<div class="submit-button text-center">
+										{% if user.is_authenticated %}
+										<button class="btn btn-common" id="submit" type="submit">ثبت رزرو</button>
+										{% else %}
+											<div class= "info-reservation"> 
+												<span>لطفا ابتدا <a href='{% url 'users:login' %}'>وارد</a> حساب کاربری خود شوید یا حساب کاربری <a href='{% url 'users:signup' %}'>بسازید.</a></span>
+											</div>
+										{% endif %}
+									</div>
+									
+								</div>
+							</div>            
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End Reservation -->
+
+	
+
+
+
+	
+{% endblock content %}
