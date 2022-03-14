@@ -1,0 +1,32 @@
+{% load static %}
+    <footer class="footer-area bg-f">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3 col-md-6 js-cnt">
+					{% for about_content in about %}
+					<h3>در باره ما</h3>
+					<p>{{about_content.summary | truncatewords:49}}</p>
+					{% endfor %}
+				</div>
+				<div class="col-lg-3 col-md-6">
+					<h3>ساعت های کاری</h3>
+					<p><span class="text-color">شنبه تا پنج شنبه :</span> ۹ - ۱۸</p>
+				</div>
+				<div class="col-lg-3 col-md-6">
+					<h3>اطلاعات تماس</h3>
+					<p class="lead">خیابان لورم, ساختمان لورم, پلاک ۵</p>
+					<p>m.esmaili.se@gmail.com</p>
+				</div>
+				<div class="col-lg-3 col-md-6">
+					<ul class="list-inline f-social">
+					{% for about_contact in about %}
+						{% for about_contacts in about_contact.links.all %}
+						<li class="list-inline-item"><a href="{{about_contacts.Acounturl}}"><i class="{{about_contacts.icons}}" aria-hidden="true"></i></a></li>
+						<li class="list-inline-item"><a href="{{about_contacts.Acounturl}}"><i class="f2c6" aria-hidden="true"></i></a></li>				
+						{% endfor %}
+					{% endfor %}
+					</ul>
+				</div>
+			</div>
+		</div>
+	</footer>
