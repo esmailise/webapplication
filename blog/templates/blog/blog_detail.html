@@ -1,0 +1,171 @@
+{% extends 'masterpage.html' %}
+{% load static %}
+{% block title %}{{blog.title}}{% endblock title %}
+{% block blog %}active{% endblock blog %}
+
+{% block content %}
+
+	<!-- Start All Pages -->
+	<div class="all-page-title page-breadcrumb">
+		<div class="container text-center">
+			<div class="row">
+				<div class="col-lg-12">
+					<h1>بلاگ</h1>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End All Pages -->
+	
+	<!-- Start blog details -->
+	<div class="blog-box">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="heading-title text-center">
+						<h2>{{blog.title}}</h2>
+						<p>{{blog.description}}</p>
+						
+						{% if messages %}
+						{% for message in messages %}
+							<div class="alert alert-success">{{message}}</div>
+						{% endfor %}
+						{% endif %}
+						
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xl-8 col-lg-8 col-12">
+					<div class="blog-inner-details-page">
+						<div class="blog-inner-box">
+							<div class="side-blog-img">
+								<img class="img-fluid3" src="{{blog.image.url}}" alt="">							
+								<div class="date-blog-up">
+									{{blog.created_at|date:"y b"}}
+								</div>
+							</div>
+							<div class="inner-blog-detail details-page">
+								<h3>{{blog.description}}</h3>
+								<ul class="align-list">
+									<li><i class="zmdi zmdi-account"></i>ارسال توسط : <span>{{blog.author.first_name}} {{blog.author.last_name}}</span></li>
+									<li>|</li>
+									<li><i class="zmdi zmdi-time "></i>زمان : <span class="time-blog">{{blog.created_at|time}}</span></li>
+								</ul>
+								<p>{{blog.content|safe}}</p>
+						
+							</div>
+						</div>
+
+						<div class="blog-comment-box">
+							<h3>دیدگاه دیگران</h3>
+                           {% for cm in comments %} 
+                                    <div class="comment-item" > 
+                                        <div class="comment-item-right">
+                                            <div class="pull-left">
+                                                {{cm.name}}
+                                            </div>
+                                            <div class="pull-right">
+                                                <i class="fa fa-calendar-o" aria-hidden="true"></i><span>{{cm.data}}</span> : تاریخ
+                                            </div>
+                                            <div class="des-l">
+                                                <p class="direction">{{cm.message}}</p>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                           {% endfor %}
+						</div>
+
+						<div class="comment-respond-box mb-5">
+							<h3>دیدگاهتان را بنویسید</h3>
+							<div class="comment-respond-form">
+								<form  method="POST" id="commentrespondform" class="comment-form-respond row">
+									{% csrf_token %}
+									<div class="col-lg-6-comment col-md-6 col-sm-6">
+										<div class="form-group">
+											<input id="name" class="form-control" name="name" placeholder="نام" type="text">
+										</div>
+										<div class="form-group">
+											<input id="email" class="form-control" name="email" placeholder="ایمیل" type="email">
+										</div>
+									</div>
+									<div class="col-lg-6-comment col-md-6 col-sm-6">
+										<div class="form-group">
+											<textarea class="form-control"  name="message" id="message" placeholder="متن شما" rows="2"></textarea>
+										</div>
+									</div>
+									<div class="col-lg-12 col-md-12 col-sm-12 direction">
+									{% if user.is_authenticated %}
+										
+											<button class="btn btn-submit" type="submit">ثبت دیدگاه</button>
+										
+									{% else %}
+										<span>لطفا ابتدا <a href='{% url 'users:login' %}'>وارد</a> حساب کاربری خود شوید یا حساب کاربری <a href='{% url 'users:signup' %}'>بسازید.</a></span>
+									{% endif %}
+									</div>
+								</form>
+							</div>
+						</div>
+
+					</div>
+				</div>
+				
+				<div class="col-xl-4 col-lg-4 col-md-6 col-sm-8 col-12 blog-sidebar direction">
+					<div class="right-side-blog">
+						<h3>جوست و جو</h3>
+							<form method="GET" action="{% url 'blog:search' %}">
+								<div class="blog-search-form">
+									<input name="search" placeholder="جست و جو مقالات" type="text">
+									<button class="search-btn" type="submit">
+										<i class="fa fa-search" aria-hidden="true"></i>
+									</button>
+								</div>
+							</form>
+						<h3>دسته بندی ها</h3>
+						<div class="blog-categories">
+							<ul>
+                                {% for  category in categories  %}
+								<li><a href="{% url 'blog:category' category.slug %}"><span>{{category.title}}</span></a></li>
+                                {% endfor %}
+							</ul>
+						</div>
+						<h3>پست های اخیر</h3>
+						<div class="post-box-blog">
+							{% for blog in recents  %}
+                                <div class="recent-post-box">
+								<div class="recent-box-blog">
+									<div class="recent-img">
+										<img class="img-fluid-recent" src="{{blog.image.url}}" alt="" >
+									</div>								
+									<div class="recent-info">
+										<ul>
+											<li><i class="zmdi zmdi-account"></i>ارسال توسط : <span>{{blog.author.first_name}} {{blog.author.last_name}}</span></li>
+											<li>|</li>
+											<li><i class="zmdi zmdi-time"></i>زمان : <span class="time-blog">{{blog.created_at|time}}</span></li>
+										</ul>
+										<h4><a href ="{% url 'blog:detail' blog.id %}">{{blog.description}}</a></h4>
+									</div>
+								</div>
+							</div>
+                            {% endfor %}
+						</div>
+						<h3>تگ های اخیر</h3>
+						<div class="blog-tag-box">
+							<ul class="list-inline tag-list">
+                                {% for tag in tags %}
+								<li class="list-inline-item"><a href="{% url 'blog:tag' tag.slug %}">{{tag.title}}</a></li>
+                                {% endfor %}
+							</ul>
+						</div>
+					</div>
+				</div>
+			
+			</div>
+		</div>
+	</div>
+	<!-- End details -->
+
+
+{% endblock content %}
