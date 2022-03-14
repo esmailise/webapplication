@@ -1,0 +1,115 @@
+{% extends 'masterpage.html' %}	
+{% load static %}
+{% block title %}پروفایل{% endblock title %}
+
+{% block content %}
+	<!-- Start All Pages -->
+	<div class="all-page-title page-breadcrumb">
+		<div class="container text-center">
+			<div class="row">
+				<div class="col-lg-12">
+					<h1>پروفایل کاربری</h1>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End All Pages -->
+    
+    <!-- Check Works -->
+    <div class="contact-box">
+        <div class="container">
+
+        	<div class="row">
+				<div class="col-lg-12">
+					<div class="heading-title text-center">
+						<h2><span style = "color:#d0a772">{{user.username}}</span> خوش آمدید</h>
+						<p>شما میتوانید از لیست زیر وضعیت کار های خود را مشاهده کنید</p>
+						
+						{% if messages %}
+							{% for message in messages %}
+								<div class="alert alert-success">{{message}}</div>
+							{% endfor %}
+						{% endif %}
+						
+					</div>
+				</div>
+			</div>
+
+            <div class="row">
+                <div class="col-md">
+                    <div class="card card-body">
+                        <a class="btn btn-primary  btn-sm btn-block" href="">درخواست کار</a>
+                        <table class="table table-sm tb-align">
+                            <tr>
+                                <th>وضعیت</th>
+                                <th>تاریخ ثبت کار</th>
+                                <th>شماره پیگیری</th>
+                                <th>نوع کار</th>
+                            </tr>
+                            
+                            {% for works_details in works_detail %}
+                                <tr>
+                                    <td>{% if works_details.status == True %}<span style = "color:green">انجام شده{% else %}<span style='color:red;'>انجام نشده</span>{% endif %}</td>
+                                    <td>{{works_details.data}}|{{works_details.time}}</td>
+                                    <td>{{works_details.id}}</td>
+                                    <td>{{works_details.categorys}}</td>
+                                </tr>
+                            {% endfor %}    
+                            
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <!-- Check Works -->
+
+    <!-- Start Menu -->
+    <div class="menu-box">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="heading-title text-center">
+                            <h2>نمونه کار های ما</h2>
+                            <p>شما میتوانید از دکمه های زیر کار های مارا مشاهد کنید</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="special-menu text-center">
+                            <div class="button-group filter-button-group direction">
+                            <button class="active" data-filter="*">همه موارد</button>
+                                {% for categorys in category %}
+                                <button data-filter=".{{categorys.name_work_en}}">{{categorys.name_work_fa}}</button>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    
+                <div class="row special-list">
+                    {% for work in works %}
+                    
+                    <div class="col-lg-4 col-md-6 special-grid {{work.category.name_work_en}}">
+                        <div class="gallery-single fix">
+                            <img src="{{work.photo.url}}" class="img-fluid2" alt="Image">
+                            <div class="why-text direction">
+                                
+                                <h4>{{work.category.name_work_fa}}</h4>
+                                <p>{{work.description}}</p>
+                                <h5>تومان : {{work.price}}</h5>
+                            </div>
+                        </div>
+                    </div>
+                    </a>
+                    {% endfor %}
+
+                    
+                </div>
+            </div>
+    </div>
+	<!-- End Menu -->
+    
+{% endblock content %}
